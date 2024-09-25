@@ -1,14 +1,19 @@
-import aiohttp
-import asyncio
 from config import config
-from telegram import ForceReply, Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+from telegram import Update
+from telegram.ext import Application, CommandHandler
 from resources import params
 from cryptocompare_api import Crypto
 
 
 async def start(update: Update, context):
-    await update.message.reply_text('Привет! Я твой бот.')
+    # await update.message.reply_text('Привет! Я твой бот.')
+    try:
+        await update.message.reply_text(str(type(context)))
+        await update.message.reply_text(str(type(update)))
+        await update.message.reply_text(str(context.args))
+    except Exception as e:
+        await update.message.reply_text(str(e))
+        exit(1)
 
 async def ton_quotation(update: Update, context):
     crypto = Crypto()
