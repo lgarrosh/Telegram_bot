@@ -1,4 +1,4 @@
-from config.config import Config
+from .config import Config
 import json
 
 FILENAME = "config/config.json"

@@ -13,6 +13,6 @@ venv:
 # Удаление виртуального окружения
 .PHONY: clean
 clean:
-	rm -rf $(VENV_DIR) */__pycache__ .vscode
+	rm -rf $(VENV_DIR) */__pycache__ .vscode resources/rates.json
 
 

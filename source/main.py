@@ -1,3 +1,5 @@
+import asyncio
+from source import crb_currency
 from config import config
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
@@ -32,27 +34,31 @@ async def price(update: Update, context):
 
 # command /quotation
 async def quotation(update: Update, context):
-    logger.info("Пользователь %s запросил котировку %s.", update.effective_user.username, context.args[0] if context.args else '')
+    logger.info("Пользователь %s запросил котировку %s.", update.effective_user.username, context.args if context.args else '')
     try:
         if context.args:
-            response = await Crypto().get_price(context.args[0])
-            if not response:
-                await update.message.reply_text("response is empty")
-            elif "Response" in response:
-                await update.message.reply_text(f"Error: {response["Message"]}")
+            if context.args[0] in crb_currency.CURRENCY_CODES:
+                await currency(update, context)
                 return
-            elif "USD" in response or "RUB" in response:
+            response = await Crypto().get_price(context.args[0])
+            if "USD" in response or "RUB" in response:
                 await update.message.reply_text('\n'.join(f"{"{:,.2f}".format(value).replace(',',' ')} {key}" \
                                                           for key, value in response.items()))
             else:
                 await update.message.reply_text(response)
-                logger.error("Ответ %s неожидаемый.", response)
         else:
             await update.message.reply_text("Укажите монету, котировку которой хотите узнать \
                                             \nФормат ввода '/quotation (coin)'")
     except Exception as e:
         bot_close(context, e=e)
 
+async def currency(update: Update, context):
+    currency = dict(await crb_currency.get_rates(context.args))
+    try:
+        if currency:
+            await update.message.reply_text('\n'.join(f"1 {key} - {"{:,.2f}".format(1/value)} RUB" for key, value in currency.items()))
+    except Exception as e:
+        logger.error("Ошибка - %s", e)
 
 async def message_handler_text(update: Update, context):
     logger.info("Пользователь %s отправил текстовае сообщение.", update.effective_user.username)
@@ -83,12 +89,10 @@ def main():
     application.run_polling()
 
 # async def main_test():
-#     crypto = Crypto()
-#     try:
-#         response = await crypto.get_price("USD")
-#         print(response)
-#     except Exception as e:
-#         print("Произошла ошибка при запросе цены.", '\n', e)   
+#     crb = await crb_currency.get_rates(["USD"])
+#     print(crb)
+#     crb = await crb_currency.get_rates(["AMD"])
+#     print(crb)
 
 if __name__ == '__main__':
     # asyncio.run(main_test())

@@ -13,11 +13,19 @@ class Cryptocompare:
 
     def __repr__(self) -> str:
         return f"Cryptocompare(token={self.token}, host={self.host})"
-
-class Config:
-    def __init__(self, telegram, cryptocompare) -> None:
-        self.telegram = Telegram(**telegram)
-        self.cryptocompare = Cryptocompare(**cryptocompare)
+    
+class Crb:
+    def __init__(self, host) -> None:
+        self.host = host
 
     def __repr__(self) -> str:
-        return f"Config(telegram={self.telegram}, cryptocompare={self.cryptocompare})"
+        return f"Crb(host={self.host})"
+
+class Config:
+    def __init__(self, telegram, cryptocompare, crb) -> None:
+        self.telegram = Telegram(**telegram)
+        self.cryptocompare = Cryptocompare(**cryptocompare)
+        self.crb = Crb(**crb)
+
+    def __repr__(self) -> str:
+        return f"Config({self.telegram}, {self.cryptocompare}, {self.crb})"
