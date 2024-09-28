@@ -1,0 +1,15 @@
+{
+    "telegram": {
+        "token": "5230126212:AAGiHguYRPJ0JkhONUjyvLBLxfSKVlZhhOg",
+        "host": "https://api.telegram.org/bot"
+    },
+    
+    "cryptocompare": {
+	    "token": "2b34a6dea822950d200ed16a7676a02ec8a71ddd141be2c487564339b3104cb3",
+	    "host": "https://min-api.cryptocompare.com"
+    },
+
+    "crb": {
+        "host": "https://www.cbr-xml-daily.ru/latest.js"
+    }
+}
