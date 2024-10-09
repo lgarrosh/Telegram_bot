@@ -42,8 +42,7 @@ async def quotation(update: Update, context):
                 return
             response = await Crypto().get_price(context.args[0])
             if "USD" in response or "RUB" in response:
-                await update.message.reply_text('\n'.join(f"{"{:,.2f}".format(value).replace(',',' ')} {key}" \
-                                                          for key, value in response.items()))
+                await update.message.reply_text('\n'.join(f"{'{:,.2f}'.format(value).replace(',',' ')} {key}" for key, value in response.items()))
             else:
                 await update.message.reply_text(response)
         else:
@@ -56,7 +55,7 @@ async def currency(update: Update, context):
     currency = dict(await crb_currency.get_rates(context.args))
     try:
         if currency:
-            await update.message.reply_text('\n'.join(f"1 {key} - {"{:,.2f}".format(1/value)} RUB" for key, value in currency.items()))
+            await update.message.reply_text('\n'.join(f"1 {key} - {'{:,.2f}'.format(1/value)} RUB" for key, value in currency.items()))
     except Exception as e:
         logger.error("Ошибка - %s", e)
 
