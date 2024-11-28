@@ -19,7 +19,7 @@ def print_dict_multi_price(d):
         for key, value in d.items():
             result += f"\n{key}"
             for x, y in value.items():
-                result += f"\n    {"{:,.2f}".format(y)} {x}".replace(',', ' ')
+                result += f"\n    {'{:,.2f}'.format(y)} {x}".replace(',', ' ')
             result += '\n'
     except Exception as e:
         logger.error("Ошибка %s в %s", e, __name__)
