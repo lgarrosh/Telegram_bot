@@ -1,12 +1,6 @@
 #!/bin/bash
 
-# Создаем виртуальное окружение
-make venv
-
-# Активируем виртуальное окружение
-source venv/bin/activate
-
-export PYTHONPATH=$(pwd)
+pip install -r requirements.txt
 
 # Запускаем приложение
-exec python source/main.py
+python source/main.py
